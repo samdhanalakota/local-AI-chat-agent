@@ -24,8 +24,8 @@ or
 
 ```bash
 tsx src/index.ts "What is edge computing?"
-tsx ts-node src/index.ts "What time is it?"
-tsx ts-node src/index.ts "What is 42 * 17?"
+tsx src/index.ts "What time is it?"
+tsx src/index.ts "What is 42 * 17?"
 ```
 
 ## Architecture Flow
