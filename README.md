@@ -46,7 +46,7 @@ Adding a new tool is one change — add it to `src/utils/tools.ts`.
 
 ## Architecture Decisions
 
-**Raw API calls over LangChain** — the scope is two tools and one model. A framework would add complexity without value here.
+**Raw API calls over framework** — the scope is two tools and one model. A framework (LangChain, LlamaIndex, CrewAI) would add complexity without value here.
 **Text-based tool parsing over function calling** — smollm-360m is a 360M parameter model. Structured JSON output isn't reliable at this scale. Text parsing with `TOOL: name / INPUT: value` is more forgiving.
 
 ## Prerequisites
