@@ -2,6 +2,7 @@ import { Message } from "./types";
 import { callMimOE } from "./utils/api";
 import { findTool, getToolDescriptions } from "./utils/tools";
 import { parseToolCall } from "./utils/parser";
+import { logger } from "./utils/helper";
 
 const SYSTEM_PROMPT = `You are a helpful assistant running locally on the user's device via mimOE.
 You have access to the following tools:
@@ -19,8 +20,8 @@ export const runAgent = async (userQuery: string): Promise<string> => {
     { role: "user", content: userQuery },
   ];
 
-  console.log(`\nUser: ${userQuery}`);
-  console.log("Thinking...\n");
+  logger(`\nUser: ${userQuery}`);
+  logger("Thinking...\n");
 
   // First call — get initial response
   const response = await callMimOE(messages);
@@ -32,11 +33,11 @@ export const runAgent = async (userQuery: string): Promise<string> => {
     const tool = findTool(toolCall.toolName);
 
     if (tool) {
-      console.log(`Using tool: ${toolCall.toolName}`);
-      console.log(`Input: ${toolCall.input}`);
+      logger(`Using tool: ${toolCall.toolName}`);
+      logger(`Input: ${toolCall.input}`);
 
       const toolResult = tool.execute(toolCall.input);
-      console.log(`Tool result: ${toolResult}\n`);
+      logger(`Tool result: ${toolResult}\n`);
 
       // Add tool interaction to messages
       messages.push({ role: "assistant", content: response });
@@ -47,12 +48,12 @@ export const runAgent = async (userQuery: string): Promise<string> => {
 
       // Second call — with tool result
       const finalResponse = await callMimOE(messages);
-      console.log(`Agent: ${finalResponse}`);
+      logger(`Agent: ${finalResponse}`);
       return finalResponse;
     }
   }
 
   // No tool needed — return direct response
-  console.log(`Agent: ${response}`);
+  logger(`Agent: ${response}`);
   return response;
 };
